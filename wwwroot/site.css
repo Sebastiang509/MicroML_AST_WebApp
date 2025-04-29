@@ -1,25 +1,77 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f3f3f3;
+}
+
 textarea {
     width: 100%;
     font-size: 16px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .ast-tree ul {
     padding-top: 20px;
     position: relative;
-    list-style: none;
+    list-style-type: none;
+    display: table;
+    margin: 0 auto;
 }
 
 .ast-tree li {
-    display: inline-block;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: #f9f9f9;
+    display: table-cell;
+    text-align: center;
+    vertical-align: top;
+    padding: 20px 5px 0 5px;
+    position: relative;
 }
 
 .ast-tree li::before, .ast-tree li::after {
     content: '';
     position: absolute;
+    top: 0;
     border-top: 1px solid #ccc;
+    width: 50%;
+    height: 20px;
+}
+
+.ast-tree li::before {
+    right: 50%;
+    border-right: 1px solid #ccc;
+}
+
+.ast-tree li::after {
+    left: 50%;
+    border-left: 1px solid #ccc;
+}
+
+.ast-tree li:only-child::before,
+.ast-tree li:only-child::after {
+    display: none;
+}
+
+.ast-tree li:first-child::before,
+.ast-tree li:last-child::after {
+    border: 0 none;
+}
+
+.ast-tree li > div {
+    display: inline-block;
+    border: 1px solid #ccc;
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.ast-tree li > div:hover {
+    background: #e6f7ff;
+    border-color: #00aaff;
 }
