@@ -3,14 +3,14 @@ using MicroML_AST_WebApp.AST;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.UseStaticFiles(); // serve /wwwroot files like site.css
+app.UseStaticFiles(); // Serve site.css from wwwroot/
 
-// GET: show form with pre-filled MicroML code
+// GET request: Show form with pre-filled MicroML code
 app.MapGet("/", async context =>
 {
     var defaultCode = "fun x -> x + 1";
 
-    var html = "<html><head><link rel=\"stylesheet\" href=\"/site.css\" /></head><body>";
+    var html = "<html><head><link rel=\\\"stylesheet\\\" href=\\\"/site.css\\\" /></head><body>";
     html += "<h1>MicroML AST Viewer</h1>";
     html += "<form method='post'>";
     html += $"<textarea name='code' rows='10' cols='80'>{defaultCode}</textarea><br/>";
@@ -20,7 +20,7 @@ app.MapGet("/", async context =>
     await context.Response.WriteAsync(html);
 });
 
-// POST: parse MicroML code and show AST
+// POST request: Parse MicroML and display AST
 app.MapPost("/", async context =>
 {
     var form = await context.Request.ReadFormAsync();
@@ -39,7 +39,7 @@ app.MapPost("/", async context =>
         return;
     }
 
-    var html = "<html><head><link rel=\"stylesheet\" href=\"/site.css\" /></head><body>";
+    var html = "<html><head><link rel=\\\"stylesheet\\\" href=\\\"/site.css\\\" /></head><body>";
     html += "<h1>MicroML AST Viewer</h1>";
     html += "<form method='post'>";
     html += $"<textarea name='code' rows='10' cols='80'>{code}</textarea><br/>";
@@ -53,7 +53,15 @@ app.MapPost("/", async context =>
 
 app.Run();
 
-// Renders the AST recursively as nested <ul>/<li> elements
+// Recursive helper to render AST nodes as nested <ul>/<li>
 string RenderAst(AstNode node)
 {
-    var html = $"<ul><li><
+    var html = $"<ul><li><div>{node.Value}</div>";
+    foreach (var child in node.Children)
+    {
+        html += RenderAst(child);
+    }
+    html += "</li></ul>";
+    return html;
+}
+
