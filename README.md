@@ -15,7 +15,8 @@ It allows users to input MicroML code and see the generated Abstract Syntax Tree
 - HTML/CSS
 
 ## Screenshots
-*(Add your screenshots here once project is running)*
+![image](https://github.com/user-attachments/assets/2ffde90f-eab6-45f1-b53c-4677cb475aa0)
+
 
 ## License
 MIT License
