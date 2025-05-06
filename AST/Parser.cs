@@ -26,7 +26,23 @@ namespace MicroML_AST_WebApp.AST
                 return funcNode;
             }
 
-            return ParseBinaryExpression();
+            return ParseApplication();
+        }
+
+        private AstNode ParseApplication()
+        {
+            var expr = ParseBinaryExpression();
+
+            while (Peek() != null && Peek() != ")" && Peek() != "->")
+            {
+                var next = ParseBinaryExpression();
+                var appNode = new AstNode("Apply");
+                appNode.Children.Add(expr);
+                appNode.Children.Add(next);
+                expr = appNode;
+            }
+
+            return expr;
         }
 
         private AstNode ParseBinaryExpression()
@@ -48,11 +64,16 @@ namespace MicroML_AST_WebApp.AST
 
         private AstNode ParseTerm()
         {
+            if (Match("("))
+            {
+                var expr = ParseExpression();
+                Expect(")");
+                return expr;
+            }
+
             var token = Consume();
             return new AstNode(token);
         }
-
-        // --- Helpers ---
 
         private bool Match(string expected)
         {
